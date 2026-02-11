@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CHIFAS – Document Intake</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; background: #fff; color: #000; }
+    h1, h2 { margin-bottom: 10px; }
+    .container { max-width: 900px; margin: auto; padding: 30px; }
+    .hidden { display: none; }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0 14px;
+      border: 1px solid #000;
+      background: #fff;
+      color: #000;
+    }
+
+    button {
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .link { text-align: center; cursor: pointer; text-decoration: underline; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th { background: #f5f5f5; }
+
+    .plus-btn {
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="loginPage">
+    <h1>CHIFAS Login</h1>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+
+    <p class="link">
+      New user?
+      <a href="signup.html">Sign up</a>
+    </p>
+  </div>
+
+  <!-- DOCUMENT UPLOAD -->
+  <div id="uploadPage" class="hidden">
+    <h2>Document Checklist</h2>
+
+    <table>
+      <tr><th>Document</th><th>Upload</th></tr>
+      <tr><td>Aadhaar</td><td><input type="file" id="aadhaarFile" /></td></tr>
+      <tr><td>10th Memo</td><td><input type="file" id="10thmemo" /></td></tr>
+      <!-- <tr><td>12th Memo</td><td><input type="file" /></td></tr>
+      <tr><td>Photo</td><td><input type="file" /></td></tr>
+      <tr><td>Signature</td><td><input type="file" /></td></tr> -->
+      <!-- <tbody id="extraDocs"></tbody> -->
+    </table>
+
+    <!-- <button class="plus-btn" onclick="addDoc()">+</button> -->
+    <button onclick="goToDetails()">Continue</button>
+  </div>
+
+  <!-- USER DETAILS -->
+  <div id="detailsPage" class="hidden">
+    <h2>User Details</h2>
+
+    <h3>Auto-filled (OCR)</h3>
+    <input id="studentName" placeholder="Student Name" />
+    <input id="dob" placeholder="DOB" />
+    <input id="aadhaar" placeholder="Aadhaar Number" />
+    <input id="gender" placeholder="Gender" />
+
+
+    <h3>Manual Details</h3>
+    <input placeholder="Father's Name" />
+    <input placeholder="Mother's Name" />
+    <input placeholder="Mobile Number" />
+    <input placeholder="Address" />
+
+    <button>Save Details</button>
+  </div>
+  
+</div>
+
+<script>
+  let extraCount = 0;
+
+  async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch(
+    "http://localhost:8787/login",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+  alert(data.message);
+  return;
+}
+
+// 🔥 Store userId globally
+window.currentUserId = data.userId;
+
+  // if (!res.ok) {
+  //   alert(data.message);
+  //   return;
+  // }
+
+  // Auth success → move forward
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("uploadPage").classList.remove("hidden");
+}
+
+
+  // function addDoc() {
+  //   if (extraCount >= 5) {
+  //     alert('Maximum 5 extra documents allowed');
+  //     return;
+  //   }
+  //   extraCount++;
+  //   const row = document.createElement('tr');
+  //   row.innerHTML = `
+  //     <td>Other Certificate ${extraCount}</td>
+  //     <td><input type="file" /></td>
+  //   `;
+  //   document.getElementById('extraDocs').appendChild(row);
+  // }
+
+  async function goToDetails() {
+
+  const fileInput1 = document.getElementById("aadhaarFile");
+  const fileInput2 = document.getElementById("10thmemo");
+  if (!fileInput1) {
+    alert("aadhaarFile not found");
+    return;
+  }
+    if (!fileInput2) {
+    alert("10th Memo not found");
+    return;
+  }
+  const file1 = fileInput1.files[0];
+  if (!file1) {
+    alert("Please upload Aadhaar first");
+    return;
+  }
+  const file2 = fileInput2.files[0];
+  if (!file2) {
+    alert("Please upload 10th Memo first");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("aadhaar", file1);
+  formData.append("memo", file2);
+  formData.append("userId", window.currentUserId);
+
+
+
+  try {
+    const res = await fetch("http://localhost:8787/ocr", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log(res.error);
+      alert("OCR Failed");
+      return;
+    }
+
+    const nameField = document.getElementById("studentName");
+    const dobField = document.getElementById("dob");
+    const aadhaarField = document.getElementById("aadhaar");
+    const genderField = document.getElementById("gender");
+
+    if (nameField) nameField.value = data.student_name || "";
+    if (dobField) dobField.value = data.dob || "";
+    if (aadhaarField) aadhaarField.value = data.aadhaar || "";
+    if (genderField) genderField.value = data.gender || "";
+
+    document.getElementById('uploadPage').classList.add('hidden');
+    document.getElementById('detailsPage').classList.remove('hidden');
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+
+</script>
+
+</body>
+</html>
