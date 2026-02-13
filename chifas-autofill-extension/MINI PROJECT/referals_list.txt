@@ -1,0 +1,15 @@
+Richard S. Sutton and Andrew G. Barto, "Reinforcement Learning: An Introduction", MIT Press, Cambridge, MA, 2018.
+Van Hasselt, H., Guez, A., & Silver, D. “Deep Reinforcement Learning with Double Q-Learning,” AAAI, 2016.
+Puterman, M. L. "Markov Decision Processes: Discrete Stochastic Dynamic Programming", Wiley, 1994.
+Bertsekas, D. P. "Dynamic Programming and Optimal Control", Athena Scientific.
+ Lillicrap, T. P., et al. “Continuous Control with Deep Reinforcement Learning,” ICLR, 2016.
+[18] François-Lavet, V., et al. “An Introduction to Deep Reinforcement Learning,” Foundations and Trends in ML, 2018.
+[19] Russell, S., & Norvig, P. Artificial Intelligence: A Modern Approach, 4th Edition, Pearson, 2021.
+Lan, Q., et al., “A Deep Reinforcement Learning Framework for Stochastic Control,” IEEE TNNLS, 2017.
+Szepesvári, C., Algorithms for Reinforcement Learning, Morgan & Claypool, 2010.
+Lowe, R., et al., “Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments,” NeurIPS, 2017.
+Hyatt, R., “Crafty Chess Engine,” University of Alabama.
+Sadikov, A., “Neural Network Based Chess Evaluation,” IEEE Conference, 2019.
+Giraffe Chess Project, “Learning to Play Chess with Deep Neural Networks,” Microsoft Research.
+
+

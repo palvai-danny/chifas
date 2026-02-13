@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "CHIFAS Autofill",
+  "version": "2.0",
+  "description": "Auto fill exam forms using saved data",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["http://localhost:8787/*", "<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

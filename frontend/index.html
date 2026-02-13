@@ -60,7 +60,7 @@
   <div id="loginPage">
     <h1>CHIFAS Login</h1>
     <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
+    <input id="password" type="password" placeholder="Password"  />
     <button onclick="login()">Login</button>
 
     <p class="link">
@@ -88,23 +88,71 @@
   </div>
 
   <!-- USER DETAILS -->
-  <div id="detailsPage" class="hidden">
-    <h2>User Details</h2>
+<div id="detailsPage" class="hidden">
+  <h2>User Details</h2>
+  <div class="input-row">
+  <label for="studentName">Candidate Name:</label>
+  <input type="text" id="studentName" placeholder="Candidate Name">
+   <!-- <label for="dob">DOB:</label> -->
+  <!-- <input id="dob" placeholder="DOB" /> -->
 
-    <h3>Auto-filled (OCR)</h3>
-    <input id="studentName" placeholder="Student Name" />
+    <!-- <input id="studentName" placeholder="Candidate Name"/> -->
+     <label for="dob">DOB:</label>
     <input id="dob" placeholder="DOB" />
+    <label for="aadhaar">Aadhaar Number:</label>
     <input id="aadhaar" placeholder="Aadhaar Number" />
+    <label for="gender">Gender:</label>
     <input id="gender" placeholder="Gender" />
-
+    <label for="fatherName">Father's Name:</label>
+    <input id="fatherName" placeholder="Father's Name" />
+    <label for="motherName">Mother's Name:</label>
+    <input id="motherName" placeholder="Mother's Name" />
 
     <h3>Manual Details</h3>
-    <input placeholder="Father's Name" />
-    <input placeholder="Mother's Name" />
-    <input placeholder="Mobile Number" />
-    <input placeholder="Address" />
+<label for="candidateEmail">Candidate Email:</label>
+<input id="candidateEmail" placeholder="Candidate Email" />
+<label for="parentEmail">Parent's Email:</label>
+<input id="parentEmail" placeholder="Parent's Email" />
+<label for="motherName">Candidate Mobile Number:</label>
+<input id="candidateMobile" placeholder="Candidate Mobile Number" />
+<label for="fatherMobile">Father Mobile Number:</label>
+<input id="fatherMobile" placeholder="Father Mobile Number" />
+<label for="motherMobile">Mother Mobile Number:</label>
+<input id="motherMobile" placeholder="Mother Mobile Number" />
 
-    <button>Save Details</button>
+<div class="dropdown-container">
+    <select id="category" required>
+        <option value="" disabled selected>Select Your Category</option>
+        <option value="general">General</option>
+        <option value="sc">SC</option>
+        <option value="st">ST</option>
+        <option value="obc">OBC</option>
+        <option value="ews">EWS</option>
+        <option value="others">Others</option>
+    </select>
+</div>
+<br>
+<div class="dropdown-container">
+    <select id="country" required>
+        <option value="" disabled selected>Select Your Country</option>
+        <option value="indian">Indian</option>
+        <option value="nri">NRI</option>
+        <option value="others">Others</option>
+    </select>
+</div>
+
+<h3>Permanent Address</h3>
+<label for="currentAddress">Current Address:</label>
+<input id="currentAddress" placeholder="Current Address" />
+<label for="district">Distr:</label>
+<input id="district" placeholder="Dist" />
+<label for="state">State:</label>
+<input id="state" placeholder="State" />
+<label for="pincode">Pin Code:</label>
+<input id="pincode" placeholder="Pin Code" />
+
+<button onclick="saveDetails()">Save Details</button>
+
   </div>
   
 </div>
@@ -115,7 +163,10 @@
   async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
+  if (!email || !password) {
+  alert("All fields required");
+  return;
+}
   const res = await fetch(
     "http://localhost:8787/login",
     {
@@ -132,9 +183,10 @@
   return;
 }
 
-// 🔥 Store userId globally
+//  Store userId globally
 window.currentUserId = data.userId;
-
+ //  STORE FOR EXTENSION (ADD THIS LINE HERE)
+localStorage.setItem("chifasUserId", data.userId);
   // if (!res.ok) {
   //   alert(data.message);
   //   return;
@@ -159,6 +211,41 @@ window.currentUserId = data.userId;
   //   `;
   //   document.getElementById('extraDocs').appendChild(row);
   // }
+async function saveDetails() {
+  const data = {
+    userId: window.currentUserId,
+
+    student_name: document.getElementById("studentName").value,
+    dob: document.getElementById("dob").value,
+    aadhaar: document.getElementById("aadhaar").value,
+    gender: document.getElementById("gender").value,
+    father_name: document.getElementById("fatherName").value,
+    mother_name: document.getElementById("motherName").value,
+
+    candidate_email: document.getElementById("candidateEmail").value,
+    parent_email: document.getElementById("parentEmail").value,
+    candidate_mobile: document.getElementById("candidateMobile").value,
+    father_mobile: document.getElementById("fatherMobile").value,
+    mother_mobile: document.getElementById("motherMobile").value,
+
+    category: document.getElementById("category").value,
+    country: document.getElementById("country").value,
+
+    current_address: document.getElementById("currentAddress").value,
+    district: document.getElementById("district").value,
+    state: document.getElementById("state").value,
+    pincode: document.getElementById("pincode").value,
+  };
+
+  const res = await fetch("http://localhost:8787/save-details", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+}
 
   async function goToDetails() {
 
@@ -208,11 +295,16 @@ window.currentUserId = data.userId;
     const dobField = document.getElementById("dob");
     const aadhaarField = document.getElementById("aadhaar");
     const genderField = document.getElementById("gender");
+    const fatherNameField = document.getElementById("fatherName");
+    const motherNameField = document.getElementById("motherName");
+
 
     if (nameField) nameField.value = data.student_name || "";
     if (dobField) dobField.value = data.dob || "";
     if (aadhaarField) aadhaarField.value = data.aadhaar || "";
     if (genderField) genderField.value = data.gender || "";
+    if (fatherNameField) fatherNameField.value = data.father_name || "";
+    if (motherNameField) motherNameField.value = data.mother_name || "";
 
     document.getElementById('uploadPage').classList.add('hidden');
     document.getElementById('detailsPage').classList.remove('hidden');

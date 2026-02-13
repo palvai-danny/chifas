@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            background-color: #f4f4f4;
+        }
+
+        .dropdown-container {
+            width: 300px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #2e7d32; /* Green border like your sketch */
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            appearance: none; /* Removes default browser styling */
+            -webkit-appearance: none;
+            position: relative;
+        }
+
+        /* Adds a small arrow to the dropdown */
+        .dropdown-container::after {
+            content: '▼';
+            font-size: 12px;
+            top: 15px;
+            right: 15px;
+            position: absolute;
+            pointer-events: none;
+            color: #2e7d32;
+        }
+        
+        .dropdown-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dropdown-container">
+        <select name="category" id="category" required>
+            <option value="" disabled selected>Select Your Category</option>
+            <option value="general">General</option>
+            <option value="sc">SC</option>
+            <option value="st">ST</option>
+            <option value="obc">OBC</option>
+            <option value="ews">EWS</option>
+            <option value="others">Others</option>
+        </select>
+    </div>
+
+</body>
+</html>

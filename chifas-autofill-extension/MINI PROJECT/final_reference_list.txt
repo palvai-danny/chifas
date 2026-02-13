@@ -1,0 +1,14 @@
+Hado van Hasselt ,Arthur Guez ,David Silver,8 Dec 2015,"Deep Reinforcement Learning with Double Q-learning",
+https://doi.org/10.48550/arXiv.1509.06461
+2. Puterman, M.L. " Markov Decision Processes: Discrete Stochastic Dynamic Programming",https://doi.org/10.1002/9780470316887
+3.Timothy P. Lillicrap, Jonathan J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, Daan Wierstra,5 Jul 2019,"Continuous control with deep reinforcement learning"https://arxiv.org/pdf/1509.02971
+4.Vincent Francois-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare, Joelle Pineau,3 Dec 2018 ,"An Introduction to Deep Reinforcement Learning",https://arxiv.org/pdf/1811.12560
+5.Russell, S. J., Norvig, P,2021 ,"Artificial Intelligence: A Modern Approach (4th ed.)",http://lib.ysu.am/disciplines_bk/efdd4d1d4c2087fe1cbe03d9ced67f34.pdf
+6.Jiaxuan Hou, Lifeng Wei,10 Nov 2025,"Reinforcement Learning Framework For Stochastic Optimal Control Problem Under Model Uncertainty",https://arxiv.org/pdf/2511.06881
+7.Szepesvári, Csaba,2010/01/01,"Algorithms for Reinforcement Learning",10.2200/S00268ED1V01Y201005AIM009
+8.  Lowe Ryan, Wu Yi,Tamar Aviv,Harb Jean,Abbeel Pieter,Mordatch Igor,2017/06/07,"Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments",10.48550/arXiv.1706.02275
+9. Sabatelli Matthia,Bidoia Francesco,Codreanu Valeriu,Wiering Marco,2018/01/17," Learning to Evaluate Chess Positions with Deep Neural Networks and Limited Lookahead",10.5220/0006535502760283
+10.Sutton, Richard S and Barto, Andrew G,2018,"Reinforcement learning: An introduction",http://www.incompleteideas.net/book/bookdraft2018mar21.pdf
+11.Kagkas Dimitrios,Karamichailidou Despina,Alexandridis Alex,2023/04/17,"Chess Position Evaluation Using Radial Basis Function Neural Networks",10.1155/2023/7143943
+
+ 
